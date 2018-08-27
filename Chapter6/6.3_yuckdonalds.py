@@ -18,10 +18,35 @@ Returns the maximum expected total profit
 def yuckdonalds(m, p, k):
     # Start from 0 for convenience
     # is the maximum profit at each location, initialize to be the profit at each location
-    T = [ p_ for p_ in p ]
+    T = [ 0 for p_ in p ]
     for i in range(len(m)):
-        for j in range(i):
-            if (m[i] - m[j]) > k:
+        T[i] = p[i]
+        for j in range(i - 1):
+            if (m[i] - m[j]) >= k:
+                T[i] = max(T[i], p[i] + T[j])
+
+        # Final maximum profit is the maximum when there is a restaurant at i and maximum profit
+        # when there is no restaurant at position i, given recursively by T[i-1]
+        T[i] = max(T[i], T[i-1])
+
+    return T[len(m)-1]
+
+
+"""
+Another version:
+    Here T(i) is the maximum total profit when there is a restaurant at location i.
+    For this version, we need to perform one more iteration to find at which location where there
+    is a restaurant the total expected profit is maximum
+"""
+"""
+def yuckdonalds(m, p, k):
+    # Start from 0 for convenience
+    # is the maximum profit at each location, initialize to be the profit at each location
+    T = [ 0 for p_ in p ]
+    for i in range(len(m)):
+        T[i] = p[i]
+        for j in range(i - 1):
+            if (m[i] - m[j]) >= k:
                 T[i] = max(T[i], p[i] + T[j])
 
     max_ = 0
@@ -29,11 +54,12 @@ def yuckdonalds(m, p, k):
         if T[i] > T[max_]:
             max_ = i
     return T[max_]
+"""
 
 
 if __name__ == "__main__":
-    m = [ 2, 5, 6, 11, 14, 20, 22, 28 ];
-    p = [ 10, 30, 40, 1, 15, 5, 23, 17 ];
+    m = [ 0, 5, 6, 11, 14, 20, 22, 28 ];
+    p = [ 30, 10, 40, 1, 15, 5, 23, 17 ];
     k = 5;
     print('m=%s p=%s k=%s' % (m, p, k))
     p_ = yuckdonalds(m, p, k)
@@ -45,3 +71,21 @@ if __name__ == "__main__":
     print('m=%s p=%s k=%s' % (m, p, k))
     p_ = yuckdonalds(m, p, k)
     print('Maximum total profit = %d' % p_)
+
+    # Greedy approach (which assumes a restaurant at location i) will fail this case (correct
+    # answer is 400)
+    m = [ 10, 20, 25, 30, 40 ];
+    p = [ 100, 100, 101, 100, 100 ];
+    k = 10;
+    print('m=%s p=%s k=%s' % (m, p, k))
+    p_ = yuckdonalds(m, p, k)
+    print('Maximum total profit = %d' % p_)
+
+    # Corner case, the return should be 42 and not 41
+    m = [ 0, 4, 8 ];
+    p = [ 10, 42, 31 ];
+    k = 5;
+    print('m=%s p=%s k=%s' % (m, p, k))
+    p_ = yuckdonalds(m, p, k)
+    print('Maximum total profit = %d' % p_)
+
