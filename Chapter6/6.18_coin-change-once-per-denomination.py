@@ -25,7 +25,7 @@ def coin_change_once_per_denomination(x, v):
         C[i][0] = True
 
     for i in range(1, n+1):
-        for j in range(v+1):
+        for j in range(1, v+1):
             if x[i-1] <= j:
                 C[i][j] = C[i-1][j-x[i-1]] or C[i-1][j]
             else:
