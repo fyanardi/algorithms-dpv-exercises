@@ -1,5 +1,5 @@
 """
-6.17 Given an unlimited supply of coins of denominations x1,x2,...xxn, we wish to make change for a
+6.17 Given an unlimited supply of coins of denominations x1,x2,...xn, we wish to make change for a
 value v; that is, we wish to find a set of coins whose total value is v. This might not be possible,
 for instance, if the denominations are 5 and 10 then we can make change for 15 but not for 12. Give
 an O(nv) dynamic-programming algorithm for the following problem.
